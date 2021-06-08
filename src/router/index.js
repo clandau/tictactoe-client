@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Login from "../components/Login";
-import Dashboard from "../components/Dashboard";
-import GamePage from "../components/GamePage";
+// import Login from "../views/Login";
+import Dashboard from "../views/Dashboard";
+import GamePage from "../views/GamePage";
+import { auth } from "@/firebaseConfig";
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Dashboard,
   },
   {
     path: "/login",
@@ -19,17 +20,17 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../component/Login.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Login.vue"),
   },
-  { 
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
   },
   {
     path: "/game/:id",
-    component: GamePage
-  }
+    component: GamePage,
+  },
 ];
 
 const router = new VueRouter({
@@ -37,5 +38,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  console.log(to, from)
+    if (to.path === "/login") {
+      console.log("here")
+      next();
+    } else {
+      if (!auth.currentUser) {
+        next({ path: "/login" })
+      }
+    }
+  })
 
 export default router;
