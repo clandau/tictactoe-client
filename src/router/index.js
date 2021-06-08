@@ -39,16 +39,19 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  console.log(to, from)
+router.beforeEach(async (to, from, next) => {
     if (to.path === "/login") {
-      console.log("here")
       next();
     } else {
-      if (!auth.currentUser) {
+      const user = await auth.getCurrentUser()
+      console.log(user)
+      console.log(auth.currentUser)
+      if (auth.currentUser === null) {
+        console.log("here")
         next({ path: "/login" })
       }
     }
-  })
+    next();
+  });
 
 export default router;

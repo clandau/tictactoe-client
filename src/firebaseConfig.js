@@ -1,5 +1,8 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import { initializeApp } from 'firebase/app';
+
+// Add the Firebase products that you want to use
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -11,7 +14,7 @@ const firebaseConfig = {
   measurementId: "G-MB5MH6DHJ2"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const auth = firebaseApp.auth();
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
 
-export { auth };
+export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword };

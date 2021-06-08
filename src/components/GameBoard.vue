@@ -21,9 +21,8 @@ export default {
     const socket = io("http://localhost:3000");
     socket.on("init", (data) => {
       console.log(data);
-    })
-    
-  }
+    });
+  },
 };
 </script>
 
