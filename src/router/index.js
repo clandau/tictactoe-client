@@ -10,8 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Dashboard,
+    redirect: { name: "Dashboard" },
   },
   {
     path: "/login",
@@ -26,10 +25,12 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: { requiresAuth: true },
   },
   {
     path: "/game/:id",
     component: GamePage,
+    meta: { requiresAuth: true },
   },
 ];
 
@@ -40,18 +41,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    if (to.path === "/login") {
-      next();
-    } else {
-      const user = await auth.getCurrentUser()
-      console.log(user)
-      console.log(auth.currentUser)
-      if (auth.currentUser === null) {
-        console.log("here")
-        next({ path: "/login" })
-      }
-    }
-    next();
-  });
+  const currentUser = auth.currentUser;
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  if (requiresAuth && !currentUser) {
+    next({ path: "/login" });
+  } else if (to.path === "/login" && currentUser) {
+    next("/");
+  }
+});
 
 export default router;
