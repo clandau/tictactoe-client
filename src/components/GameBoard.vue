@@ -15,7 +15,16 @@
 </template>
 
 <script>
-export default {};
+const io = require("socket.io-client");
+export default {
+  created() {
+    const socket = io("http://localhost:3000");
+    socket.on("init", (data) => {
+      console.log(data);
+    })
+    
+  }
+};
 </script>
 
 <style scoped>
