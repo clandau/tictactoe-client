@@ -16,11 +16,10 @@ auth.onAuthStateChanged(async () => {
       //start app
       app = new Vue({
         router,
-
         created() {
           //redirect if user not logged in
           if (!user) {
-            this.$router.push("/login");
+            this.$router.push({ name: "Dashboard"});
           }
         },
 

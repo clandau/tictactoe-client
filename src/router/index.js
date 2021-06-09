@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: { name: "Dashboard" },
+    next: "/dashboard"
   },
   {
     path: "/login",

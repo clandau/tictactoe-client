@@ -21,7 +21,6 @@
         <div class="column">
           <v-text-field
             v-model="email"
-            :error-messages="emailErrors"
             label="E-mail"
             required
           ></v-text-field>
@@ -32,7 +31,6 @@
           <v-text-field
             v-model="password"
             type="password"
-            name="input-10-1"
             label="Password"
             hint="At least 8 characters"
             counter
@@ -41,7 +39,7 @@
       </div>
       <div class="row">
         <div class="column">
-          <v-btn type="submit" @click="handleSubmit" class="">SUBMIT</v-btn>
+          <v-btn type="submit" @click.stop.prevent="handleSubmit" class="">SUBMIT</v-btn>
         </div>
       </div>
     </form>
@@ -84,6 +82,7 @@ export default {
           this.password
         );
         const user = userCredential.user;
+        this.$router.push({ name: "Dashboard" });
         console.log(user);
       } catch (err) {
         console.error(err);
@@ -94,6 +93,7 @@ export default {
     },
     async registerNewUser() {
       try {
+        console.log(this.email, this.password, auth)
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           this.email,
@@ -101,6 +101,7 @@ export default {
         );
         const user = userCredential.user;
         console.log(user);
+        this.$router.push("/dashboard");
       } catch (err) {
         console.error(err);
         alert(`trouble registering new user: ${err.message}`);

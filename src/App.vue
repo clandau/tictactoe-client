@@ -11,8 +11,8 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
       <Login v-if="!user"></Login>
+      <router-view v-if="user"></router-view>
     </v-main>
   </v-app>
 </template>
