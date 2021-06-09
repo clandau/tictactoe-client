@@ -1,17 +1,17 @@
 <template>
-  <div class="board-container justify-center">
-    <div class="board">
-      <div class="cell"><p>{{ boardState[0][0] }}</p></div>
-      <div class="cell"><p>{{ boardState[0][1] }}</p></div>
-      <div class="cell"><p>{{ boardState[0][2] }}</p></div>
-      <div class="cell"><p>{{ boardState[1][0] }}</p></div>
-      <div class="cell"><p>{{ boardState[1][1] }}</p></div>
-      <div class="cell"><p>{{ boardState[1][2] }}</p></div>
-      <div class="cell"><p>{{ boardState[2][0] }}</p></div>
-      <div class="cell"><p>{{ boardState[2][1] }}</p></div>
-      <div class="cell"><p>{{ boardState[2][2] }}</p></div>
-    </div>
-  </div>
+  <v-container>
+    <v-layout wrap>
+      <v-flex xs12 class="mb-5">
+        <v-container grid-list-xs>
+          <v-layout v-for="(row, y) of boardState" :key="y">
+            <div v-for="(val, x) of boardState[y]" :key="y + x" @mouseup="handleChoice(y, x, val)" class="cell">
+              <p>{{ val }}</p>
+            </div>
+          </v-layout>
+        </v-container>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -21,31 +21,31 @@ export default {
     boardState: {
       type: Array,
       required: true,
-    }
-  }
+    },
+  },
+  methods: {
+    handleChoice(y, x, val) {
+      console.log(y, x);
+      if (val === "") {
+        this.$emit("choice", { y, x })
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.board {
-  width: 500px;
-  height: 500px;
-  display: grid;
-  grid-auto-columns: 1fr;
-  grid-auto-rows: 1fr;
-  overflow: hidden;
+.board .cell:last-child {
+  grid-area: 3/3;
 }
-.board .cell {
+.cell {
   outline: 4px solid #000;
   display: flex;
   font-size: 6em;
   font-weight: bold;
   justify-content: center;
-  align-items: center;
-}
-.board .cell:last-child {
-  grid-area: 3/3;
-}
-.cell {
+  align-items: stretch;
+  width: 150px;
+  height: 150px;
 }
 </style>
