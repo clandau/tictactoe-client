@@ -19,11 +19,7 @@
     <form v-show="showLoginForm">
       <div class="row">
         <div class="column">
-          <v-text-field
-            v-model="email"
-            label="E-mail"
-            required
-          ></v-text-field>
+          <v-text-field v-model="email" label="E-mail" required></v-text-field>
         </div>
       </div>
       <div class="row">
@@ -39,7 +35,9 @@
       </div>
       <div class="row">
         <div class="column">
-          <v-btn type="submit" @click.stop.prevent="handleSubmit" class="">SUBMIT</v-btn>
+          <v-btn type="submit" @click.stop.prevent="handleSubmit" class=""
+            >SUBMIT</v-btn
+          >
         </div>
       </div>
     </form>
@@ -82,8 +80,9 @@ export default {
           this.password
         );
         const user = userCredential.user;
+        const res = await this.addUserToDatabase(user);
+        console.log(res);
         this.$router.push({ name: "Dashboard" });
-        console.log(user);
       } catch (err) {
         console.error(err);
         alert(`trouble logging in user: ${err.message}`);
@@ -93,14 +92,15 @@ export default {
     },
     async registerNewUser() {
       try {
-        console.log(this.email, this.password, auth)
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           this.email,
           this.password
         );
         const user = userCredential.user;
-        console.log(user);
+        // send new user to db
+        const res = await this.addUserToDatabase(user);
+        console.log(res);
         this.$router.push("/dashboard");
       } catch (err) {
         console.error(err);
@@ -112,7 +112,21 @@ export default {
     clear() {
       this.email = null;
       this.password = null;
-    }
+    },
+
+    async addUserToDatabase(user) {
+      const url = "http://localhost:3000/api/newUser";
+      const token = user && (await user.getIdToken());
+
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.json();
+    },
   },
 };
 </script>

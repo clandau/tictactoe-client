@@ -9,10 +9,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Dashboard",
-  },
-  {
     path: "/login",
     name: "Login",
     // route level code-splitting
@@ -28,8 +24,9 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/game/:id",
+    path: "/gamepage",
     component: GamePage,
+    name: "GamePage",
     meta: { requiresAuth: true },
   },
 ];
@@ -43,12 +40,11 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const currentUser = auth.currentUser;
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-
   if (requiresAuth && !currentUser) {
     next({ path: "/login" });
-  } else if (to.path === "/login" && currentUser) {
+  } else if (currentUser && to.path === "/login" || to.path === "/" ) {
     next({ path: "/dashboard"});
-  }
+  } else next()
 });
 
 export default router;

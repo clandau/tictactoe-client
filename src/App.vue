@@ -11,27 +11,24 @@
     </v-app-bar>
 
     <v-main>
-      <Login v-if="!user"></Login>
-      <router-view v-if="user"></router-view>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import { auth, signOut } from "@/firebaseConfig";
-import Login from "@/views/Login"
 export default {
   name: "App",
-  components: {
-    Login
+  components: {},
+  props: {
+    user: {
+      type: Object || null,
+    }
   },
   data() {
     return {
-      user: null,
     };
-  },
-  created() {
-    this.user = auth.currentUser;
   },
   methods: {
     logoutUser() {
