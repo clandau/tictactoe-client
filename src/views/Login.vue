@@ -1,35 +1,50 @@
 <template>
   <div class="container">
     <div class="row">
-      <button v-show="!showLoginForm" @click="handleLogin">Login</button>
+      <v-btn
+        class="deep-purple lighten-3"
+        v-show="!showLoginForm"
+        @click="handleLogin"
+        >Login</v-btn
+      >
     </div>
     <div class="row">
-      <button v-show="!showLoginForm" @click="handleRegister">Register</button>
+      <v-btn
+        class="deep-purple lighten-3"
+        v-show="!showLoginForm"
+        @click="handleRegister"
+        >Register</v-btn
+      >
     </div>
-    <form v-show="showLoginForm" @submit.stop.prevent="handleSubmit">
+    <form v-show="showLoginForm">
       <div class="row">
         <div class="column">
-          <label for="email">Email</label>
-          <br />
-          <input type="email" name="email" id="email" />
+          <v-text-field
+            v-model="email"
+            :error-messages="emailErrors"
+            label="E-mail"
+            required
+          ></v-text-field>
         </div>
       </div>
       <div class="row">
         <div class="column">
-          <label for="password">Password</label>
-          <br />
-          <input type="password" name="password" />
+          <v-text-field
+            v-model="password"
+            type="password"
+            name="input-10-1"
+            label="Password"
+            hint="At least 8 characters"
+            counter
+          ></v-text-field>
         </div>
       </div>
       <div class="row">
-        <div class="column"><input type="submit" /></div>
+        <div class="column">
+          <v-btn type="submit" @click="handleSubmit" class="">SUBMIT</v-btn>
+        </div>
       </div>
     </form>
-    <div class="row">
-      <div class="column">
-        <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -45,58 +60,58 @@ export default {
       showLoginForm: false,
       user: null,
       newUser: false,
-      errorMessage: null,
+      email: null,
+      password: null,
     };
   },
   methods: {
     handleLogin() {
-      this.errorMessage = null;
       this.newUser = false;
       this.showLoginForm = true;
     },
     handleRegister() {
-      this.errorMessage = null;
       this.newUser = true;
       this.showLoginForm = true;
     },
-    handleSubmit(e) {
-      return this.newUser ? this.registerNewUser(e) : this.loginUser(e);
+    handleSubmit() {
+      return this.newUser ? this.registerNewUser() : this.loginUser();
     },
-    async loginUser(e) {
-      const form = e.target;
-      const email = form.elements.email.value;
-      const password = form.elements.password.value;
+    async loginUser() {
       try {
         const userCredential = await signInWithEmailAndPassword(
           auth,
-          email,
-          password
+          this.email,
+          this.password
         );
         const user = userCredential.user;
         console.log(user);
       } catch (err) {
         console.error(err);
-        form.reset();
+        alert(`trouble logging in user: ${err.message}`);
         this.showLoginForm = false;
-        this.errorMessage = err.message;
+        this.clear();
       }
     },
-    async registerNewUser(e) {
-      const form = e.target;
-      const email = form.elements.email.value;
-      const password = form.elements.password.value;
+    async registerNewUser() {
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
-          email,
-          password
+          this.email,
+          this.password
         );
         const user = userCredential.user;
         console.log(user);
       } catch (err) {
         console.error(err);
+        alert(`trouble registering new user: ${err.message}`);
+        this.showLoginForm = false;
+        this.clear();
       }
     },
+    clear() {
+      this.email = null;
+      this.password = null;
+    }
   },
 };
 </script>
@@ -115,5 +130,4 @@ export default {
 .column {
   flex: 1;
 }
-
 </style>

@@ -1,51 +1,49 @@
 <template>
-  <div id="app">
+  <v-app>
+    <v-app-bar v-if="user" app color="deep-purple" dark>
+      <v-spacer></v-spacer>
+      <div class="d-flex align-center mx-5">
+        <v-toolbar-title>{{ user.email }}</v-toolbar-title>
+      </div>
+      <v-btn @click="logoutUser" outlined>
+        <span class="mr-2">LOGOUT</span>
+      </v-btn>
+    </v-app-bar>
 
-    <router-view/>
-  </div>
+    <v-main>
+      <router-view />
+      <Login v-if="!user"></Login>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import { auth } from "@/firebaseConfig";
+import { auth, signOut } from "@/firebaseConfig";
+import Login from "@/views/Login"
 export default {
+  name: "App",
+  components: {
+    Login
+  },
   data() {
     return {
       user: null,
-    }
+    };
   },
-
-  async created() {
-    console.log(auth.currentUser)
+  created() {
     this.user = auth.currentUser;
-  }
-}
+  },
+  methods: {
+    logoutUser() {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          this.$router.push("/login");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-button {
-  padding: 5px;
-}
-.error {
-  color: red;
-}
-</style>
