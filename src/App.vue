@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar v-if="user" app color="deep-purple" dark>
+    <v-app-bar app color="deep-purple" dark>
       <v-spacer></v-spacer>
-      <div class="d-flex align-center mx-5">
+      <div v-if="user" class="d-flex align-center mx-5">
         <v-toolbar-title>{{ user.email }}</v-toolbar-title>
       </div>
-      <v-btn @click="logoutUser" outlined>
+      <v-btn v-if="user" @click="logoutUser" outlined>
         <span class="mr-2">LOGOUT</span>
       </v-btn>
     </v-app-bar>

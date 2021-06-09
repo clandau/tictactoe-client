@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    next: "/dashboard"
+    name: "Dashboard",
   },
   {
     path: "/login",
@@ -47,7 +47,7 @@ router.beforeEach(async (to, from, next) => {
   if (requiresAuth && !currentUser) {
     next({ path: "/login" });
   } else if (to.path === "/login" && currentUser) {
-    next("/");
+    next({ path: "/dashboard"});
   }
 });
 

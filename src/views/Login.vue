@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <v-btn
-        class="deep-purple lighten-3"
+        class="deep-purple lighten-2 white--text"
         v-show="!showLoginForm"
         @click="handleLogin"
         >Login</v-btn
@@ -10,7 +10,7 @@
     </div>
     <div class="row">
       <v-btn
-        class="deep-purple lighten-3"
+        class="deep-purple lighten-2 white--text"
         v-show="!showLoginForm"
         @click="handleRegister"
         >Register</v-btn
