@@ -2,8 +2,12 @@
   <v-container class="pa-10 ma-3">
     <v-row>
       <v-col cols="1"></v-col>
-      <v-col cols="10">
-        <GameBoard v-if="state" :boardState="state.board"  />
+      <v-col cols="10" max-width="450">
+        <GameBoard
+          v-if="state"
+          :boardState="state.board"
+          v-on="{ choice: handleCellChoice }"
+        />
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
@@ -11,8 +15,9 @@
 </template>
 
 <script>
-import GameBoard from "@/components/GameBoard"
+import GameBoard from "@/components/GameBoard";
 const io = require("socket.io-client");
+import { auth } from "@/firebaseConfig";
 
 export default {
   name: "GamePage",
@@ -24,24 +29,43 @@ export default {
   },
   data() {
     return {
-      // state: { board: [["X", "O", "X"],["X", "O", "X"], ["X", "O", "X"]]},
       state: null,
-    }
+      socket: null,
+    };
   },
-  created() {
-    const socket = io("http://localhost:3000");
-    socket.on("init", (data) => {
+  async created() {
+    console.log();
+    const user = auth.currentUser;
+    console.log(user)
+    const token = await user.getIdToken();
+    this.socket = io("http://localhost:3000", {
+      auth: {
+        token,
+        uid: user.uid,
+      },
+    });
+    this.socket.on("init", (data) => {
       console.log(data);
     });
-    socket.emit("newGame", { twoPlayer: this.twoPlayer });
-    socket.on("currentState", this.handleState);
+    this.socket.emit("newGame", { twoPlayer: this.twoPlayer });
+    this.socket.on("currentState", this.handleState);
   },
 
   methods: {
     handleState(state) {
+      this.state = JSON.parse(state);
       console.log(state);
-      this.state = state;
+      if (this.state.status === "complete") {
+        this.handleGameOver(this.state.winner);
+      }
     },
+    handleCellChoice(coordinates) {
+      // send choice to server
+      this.socket.emit("playerMove", coordinates);
+    },
+    handleGameOver(winner) {
+      alert(`${winner} wins!`);
+    }
   },
 };
 </script>

@@ -79,9 +79,7 @@ export default {
           this.email,
           this.password
         );
-        const user = userCredential.user;
-        const res = await this.addUserToDatabase(user);
-        console.log(res);
+        userCredential.user;
         this.$router.push({ name: "Dashboard" });
       } catch (err) {
         console.error(err);
