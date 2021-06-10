@@ -1,5 +1,5 @@
 <template>
-  <v-container class="dashboard-container">
+  <v-container class="dashboard-container mx-auto">
     <v-row>
     <v-col cols="8">
       <div class="game-button-container d-flex flex-column mb-6 pa-5">

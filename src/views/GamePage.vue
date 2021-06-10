@@ -64,17 +64,10 @@ export default {
   methods: {
     handleState(state) {
       this.state = JSON.parse(state);
-      console.log(state);
-      if (this.state.status === "complete") {
-        this.handleGameOver(this.state.winner);
-      }
     },
     handleCellChoice(coordinates) {
       // send choice to server
       this.socket.emit("playerMove", coordinates);
-    },
-    handleGameOver(winner) {
-      alert(`${winner} wins!`);
     },
   },
 };
