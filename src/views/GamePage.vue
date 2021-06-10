@@ -3,6 +3,17 @@
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10" max-width="450">
+        <v-alert
+          v-if="state.status === 'complete' && state.winner === user.uid"
+          type="success"
+          >You have won!</v-alert
+        >
+        <v-alert
+          v-if="state.status === 'complete' && state.winner !== user.uid"
+          type="error"
+          >You have lost.</v-alert
+        >
+        <h1 v-if="state.status !== 'complete'">{{`${state.turn}'s turn` }}</h1>
         <GameBoard
           v-if="state"
           :boardState="state.board"
@@ -31,17 +42,16 @@ export default {
     return {
       state: null,
       socket: null,
+      user: null,
     };
   },
   async created() {
-    console.log();
-    const user = auth.currentUser;
-    console.log(user)
-    const token = await user.getIdToken();
+    this.user = auth.currentUser;
+    const token = await this.user.getIdToken();
     this.socket = io("http://localhost:3000", {
       auth: {
         token,
-        uid: user.uid,
+        uid: this.user.uid,
       },
     });
     this.socket.on("init", (data) => {
@@ -65,7 +75,7 @@ export default {
     },
     handleGameOver(winner) {
       alert(`${winner} wins!`);
-    }
+    },
   },
 };
 </script>
