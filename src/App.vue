@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="deep-purple" dark>
+      <v-btn :to="'/dashboard'" outlined>Return to dashboard</v-btn>
       <v-spacer></v-spacer>
       <div v-if="user" class="d-flex align-center mx-5">
         <v-toolbar-title>{{ user.email }}</v-toolbar-title>
