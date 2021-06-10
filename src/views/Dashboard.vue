@@ -1,14 +1,17 @@
 <template>
   <v-container class="dashboard-container">
-    <div class="game-button-container d-flex flex-column mb-6">
-      <h2>Start a new game</h2>
-      <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: false }}">Against Computer</v-btn></div>
-        <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: true }}">Find a game partner</v-btn></div>
-    </div>
-    <aside class="side-container">
+    <v-row>
+    <v-col cols="8">
+      <div class="game-button-container d-flex flex-column mb-6 pa-5">
+        <h1 class="text-h2">Start a new game</h1>
+        <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: false }}">Play against Computer</v-btn></div>
+          <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: true }}">Find a game partner</v-btn></div>
+      </div>
+    </v-col>
+    <v-col cols="4" class="side-container">
       <div><LeaderBoard /></div>
-      <div><GameHistory /></div>
-    </aside>
+      <div><GameHistory /></div></v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -33,4 +36,7 @@ export default {
 </script>
 
 <style scoped>
+.game-button-container, .side-container {
+  text-align: center;
+}
 </style>
