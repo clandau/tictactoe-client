@@ -27,6 +27,7 @@ const routes = [
     path: "/gamepage",
     component: GamePage,
     name: "GamePage",
+    props: true,
     meta: { requiresAuth: true },
   },
 ];

@@ -5,13 +5,13 @@
         <div class="game-button-container mb-6 pa-5">
           <h1 class="text-h2">Start a new game</h1>
           <div class="button-container pa-6">
-            <v-btn :to="{ name: 'GamePage', params: { twoPlayer: false } }"
-              >Play against Computer</v-btn
+            <v-btn @click="handleGameChoice(false)">
+              Play against Computer</v-btn
             >
           </div>
           <div class="button-container pa-6">
-            <v-btn :to="{ name: 'GamePage', params: { twoPlayer: true } }"
-              >Find a game partner</v-btn
+            <v-btn @click="handleGameChoice(true)"
+              >Two player</v-btn
             >
           </div>
         </div>
@@ -40,7 +40,11 @@ export default {
     this.user = auth.currentUser;
   },
 
-  methods: {},
+  methods: {
+    handleGameChoice(twoPlayer) {
+      this.$router.push({ name: "GamePage", params: { twoPlayer: twoPlayer }});
+    }
+  },
 };
 </script>
 

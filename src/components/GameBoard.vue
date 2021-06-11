@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-layout wrap>
+  <v-container class="text-center">
+    <v-layout>
       <v-flex xs12 class="mb-5">
         <v-container grid-list-xs class="board">
           <v-layout v-for="(row, y) of boardState" :key="y">
