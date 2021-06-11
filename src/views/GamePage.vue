@@ -2,6 +2,7 @@
   <v-container fluid class="pa-10 ma-3 text-center">
     <v-row v-if="state">
       <v-col>
+        <p v-if="error">{{error}}</p>
         <v-alert
           v-if="
             state && state.status === 'complete' && state.winner === user.uid
@@ -58,6 +59,7 @@ export default {
       user: null,
       player: null,
       waitingForGamePartner: false,
+      error: null,
     };
   },
   async created() {
@@ -78,6 +80,7 @@ export default {
     this.socket.emit("newGame", { twoPlayer: this.twoPlayer });
     this.socket.on("currentState", this.handleState);
     this.socket.on("waitingPartner", this.handleWaiting);
+    this.socket.on("playerLeft", this.handlePlayerLeft);
   },
 
   computed: {
@@ -97,13 +100,19 @@ export default {
     },
     handleCellChoice(coordinates) {
       // if it's our turn, send choice to server
-      if (this.player === this.state.turn) {
+      if (this.state.status === "incomplete" && this.player === this.state.turn) {
         this.socket.emit("playerMove", coordinates);
       }
     },
     handleWaiting() {
       this.waitingForGamePartner = true;
     },
+
+    handlePlayerLeft() {
+      alert("Player left game.");
+      this.error = "Player left game.";
+      this.socket.disconnect();
+    }
   },
   beforeRouteLeave(to, from, next) {
     // disconnect from socket when navigate away from route
