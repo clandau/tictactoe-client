@@ -79,7 +79,8 @@ export default {
           this.email,
           this.password
         );
-        userCredential.user;
+        const user = userCredential.user;
+        this.$emit("updateUser", user);
         this.$router.push({ name: "Dashboard" });
       } catch (err) {
         console.error(err);
@@ -96,6 +97,7 @@ export default {
           this.password
         );
         const user = userCredential.user;
+        this.$emit("updateUser", user);
         // send new user to db
         await this.addUserToDatabase(user);
         this.$router.push("/dashboard");

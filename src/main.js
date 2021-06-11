@@ -12,7 +12,6 @@ auth.onAuthStateChanged(async () => {
   if (!app) {
     //wait to get user
     const user = await auth.currentUser;
-
     //start app
     app = new Vue({
       router,
@@ -24,7 +23,7 @@ auth.onAuthStateChanged(async () => {
       },
 
       vuetify,
-      render: (h) => h(App, { props: { user } }),
+      render: (h) => h(App),
     }).$mount("#app");
   }
 });

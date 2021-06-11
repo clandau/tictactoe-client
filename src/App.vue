@@ -12,7 +12,7 @@
     </v-app-bar>
 
     <v-main class="blue-grey lighten-5">
-      <router-view></router-view>
+      <router-view @updateUser="updateUser"></router-view>
     </v-main>
   </v-app>
 </template>
@@ -22,26 +22,30 @@ import { auth, signOut } from "@/firebaseConfig";
 export default {
   name: "App",
   components: {},
-  props: {
-    user: {
-      type: Object || null,
-    }
-  },
   data() {
     return {
+      user: null,
     };
+  },
+  
+  created() {
+    this.user = auth.currentUser;
   },
   methods: {
     logoutUser() {
       signOut(auth)
         .then(() => {
           // Sign-out successful.
+          this.user = null;
           this.$router.push("/login");
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    updateUser(user) {
+      this.user = user;
+    }
   },
 };
 </script>
