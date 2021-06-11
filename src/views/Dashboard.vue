@@ -1,5 +1,5 @@
 <template>
-  <v-container class="dashboard-container mx-auto">
+  <v-container fluid class="dashboard-container mx-auto">
     <v-row>
     <v-col cols="8">
       <div class="game-button-container d-flex flex-column mb-6 pa-5">
@@ -9,8 +9,8 @@
       </div>
     </v-col>
     <v-col cols="4" class="side-container">
-      <div><LeaderBoard /></div>
-      <div><GameHistory /></div></v-col>
+      <div class="my-2"><LeaderBoard /></div>
+      <div class="my-2"><GameHistory /></div></v-col>
     </v-row>
   </v-container>
 </template>
