@@ -1,7 +1,6 @@
 <template>
   <v-container fluid class="pa-10 ma-3">
     <v-row v-if="state">
-      <!-- <v-col cols="1"></v-col> -->
       <v-col max-width="450">
         <v-alert
           v-if="
@@ -17,8 +16,7 @@
           type="error"
           >You have lost.</v-alert
         ></v-col
-      >
-      <!-- </v-col> --> </v-row
+      > </v-row
     ><v-row
       ><v-col>
         <h1 class="text-h2 my-4" v-if="state && state.status !== 'complete'">
@@ -30,7 +28,6 @@
           v-on="{ choice: handleCellChoice }"
         />
       </v-col>
-      <!-- <v-col cols="1"></v-col> -->
     </v-row>
     <v-row v-if="waitingForGamePartner">
       <h2 class="text-h2 my-4">Awaiting a game partner...</h2>
@@ -71,9 +68,12 @@ export default {
         uid: this.user.uid,
       },
     });
-    this.socket.on("init", (data) => {
-      console.log(data);
-    });
+    this.socket.on("connect_error", (err) => {
+      console.error(err);
+      alert(`Server error.`);
+      this.socket.disconnect();
+      return this.$router.push("/dashboard");
+    })
     this.socket.emit("newGame", { twoPlayer: this.twoPlayer });
     this.socket.on("currentState", this.handleState);
     this.socket.on("waitingPartner", this.handleWaiting);
@@ -101,23 +101,21 @@ export default {
       }
     },
     handleWaiting() {
-      console.log("awaiting partner");
       this.waitingForGamePartner = true;
     },
   },
   beforeRouteLeave(to, from, next) {
     // disconnect from socket when navigate away from route
     if (
-      this.state.status !== "complete" &&
+      this.state?.status === "incomplete" &&
       confirm("Do you wish to leave your game?")
     ) {
       this.socket.disconnect();
       next();
-    }
-    if (this.state.status === "complete") {
+    } else if (this.state?.status === "complete") {
       this.socket.disconnect();
       next();
-    }
+    } else next();
   },
 };
 </script>
