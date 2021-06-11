@@ -3,24 +3,32 @@
     <v-row v-if="state">
       <!-- <v-col cols="1"></v-col> -->
       <v-col max-width="450">
-      <v-alert
-        v-if="state && state.status === 'complete' && state.winner === user.uid"
-        type="success"
-        >You have won!</v-alert
+        <v-alert
+          v-if="
+            state && state.status === 'complete' && state.winner === user.uid
+          "
+          type="success"
+          >You have won!</v-alert
+        >
+        <v-alert
+          v-if="
+            state && state.status === 'complete' && state.winner !== user.uid
+          "
+          type="error"
+          >You have lost.</v-alert
+        ></v-col
       >
-      <v-alert
-        v-if="state && state.status === 'complete' && state.winner !== user.uid"
-        type="error"
-        >You have lost.</v-alert
-      ></v-col>
-      <!-- </v-col> -->
-      </v-row><v-row><v-col>
-      <h1 class="text-h2 my-4" v-if="state && state.status !== 'complete'">{{ turnText }}</h1>
-      <GameBoard
-        v-if="state"
-        :boardState="state.board"
-        v-on="{ choice: handleCellChoice }"
-      />
+      <!-- </v-col> --> </v-row
+    ><v-row
+      ><v-col>
+        <h1 class="text-h2 my-4" v-if="state && state.status !== 'complete'">
+          {{ turnText }}
+        </h1>
+        <GameBoard
+          v-if="state"
+          :boardState="state.board"
+          v-on="{ choice: handleCellChoice }"
+        />
       </v-col>
       <!-- <v-col cols="1"></v-col> -->
     </v-row>
@@ -95,14 +103,22 @@ export default {
     handleWaiting() {
       console.log("awaiting partner");
       this.waitingForGamePartner = true;
-    }
+    },
   },
   beforeRouteLeave(to, from, next) {
     // disconnect from socket when navigate away from route
-    this.socket.disconnect();
-    next();
-  }
-
+    if (
+      this.state.status !== "complete" &&
+      confirm("Do you wish to leave your game?")
+    ) {
+      this.socket.disconnect();
+      next();
+    }
+    if (this.state.status === "complete") {
+      this.socket.disconnect();
+      next();
+    }
+  },
 };
 </script>
 
