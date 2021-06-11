@@ -18,8 +18,7 @@ import { auth } from "@/firebaseConfig";
     data() {
       return {
         winners: null,
-        // winners:[ { "email": "test@email.com", "count": 2 }, { "email": "test2@gmail.com", "count": 1 } ],
-        url: "http://localhost:3000/api/wins",
+        url: "https://peaceful-temple-46739.herokuapp.com/api/wins",
       }
     },
     async created() {

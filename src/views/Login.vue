@@ -112,7 +112,7 @@ export default {
     },
 
     async addUserToDatabase(user) {
-      const url = "http://localhost:3000/api/newUser";
+      const url = "https://peaceful-temple-46739.herokuapp.com/api/newUser";
       const token = user && (await user.getIdToken());
 
       const res = await fetch(url, {

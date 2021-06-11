@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       games: null,
-      url: "http://localhost:3000/api/games",
+      url: "https://peaceful-temple-46739.herokuapp.com/api/games",
     };
   },
 
