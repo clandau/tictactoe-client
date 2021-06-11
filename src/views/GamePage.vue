@@ -1,20 +1,21 @@
 <template>
-  <v-container fluid class="pa-10 ma-3">
+  <v-container fluid class="pa-10 ma-3 text-center">
     <v-row v-if="state">
-      <v-col max-width="450">
+      <v-col>
         <v-alert
           v-if="
             state && state.status === 'complete' && state.winner === user.uid
           "
-          type="success"
-          >You have won!</v-alert
+          icon="mdi-trophy"
+          type="success" style="font-size: 24px"
+          >You won!</v-alert
         >
         <v-alert
           v-if="
             state && state.status === 'complete' && state.winner !== user.uid
           "
-          type="error"
-          >You have lost.</v-alert
+          type="error" style="font-size: 24px"
+          >You lost.</v-alert
         ></v-col
       > </v-row
     ><v-row
