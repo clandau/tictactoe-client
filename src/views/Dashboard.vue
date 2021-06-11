@@ -1,16 +1,25 @@
 <template>
   <v-container fluid class="dashboard-container mx-auto">
     <v-row>
-    <v-col cols="8">
-      <div class="game-button-container d-flex flex-column mb-6 pa-5">
-        <h1 class="text-h2">Start a new game</h1>
-        <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: false }}">Play against Computer</v-btn></div>
-          <div class="button-container pa-6"><v-btn :to="{ name: 'GamePage', params: { twoPlayer: true }}">Find a game partner</v-btn></div>
-      </div>
-    </v-col>
-    <v-col cols="4" class="side-container">
-      <div class="my-2"><LeaderBoard /></div>
-      <div class="my-2"><GameHistory /></div></v-col>
+      <v-col cols="8">
+        <div class="game-button-container mb-6 pa-5">
+          <h1 class="text-h2">Start a new game</h1>
+          <div class="button-container pa-6">
+            <v-btn :to="{ name: 'GamePage', params: { twoPlayer: false } }"
+              >Play against Computer</v-btn
+            >
+          </div>
+          <div class="button-container pa-6">
+            <v-btn :to="{ name: 'GamePage', params: { twoPlayer: true } }"
+              >Find a game partner</v-btn
+            >
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="4" class="side-container">
+        <div class="my-2"><LeaderBoard /></div>
+        <div class="my-2"><GameHistory /></div
+      ></v-col>
     </v-row>
   </v-container>
 </template>
@@ -21,7 +30,7 @@ import LeaderBoard from "@/components/LeaderBoard";
 import GameHistory from "@/components/GameHistory";
 export default {
   name: "Dashboard",
-  components: {LeaderBoard, GameHistory},
+  components: { LeaderBoard, GameHistory },
   data() {
     return {
       user: null,
@@ -31,12 +40,13 @@ export default {
     this.user = auth.currentUser;
   },
 
-  methods: {}
+  methods: {},
 };
 </script>
 
 <style scoped>
-.game-button-container, .side-container {
+.game-button-container,
+.side-container {
   text-align: center;
 }
 </style>
