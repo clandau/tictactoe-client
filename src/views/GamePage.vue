@@ -97,6 +97,12 @@ export default {
       this.waitingForGamePartner = true;
     }
   },
+  beforeRouteLeave(to, from, next) {
+    // disconnect from socket when navigate away from route
+    this.socket.disconnect();
+    next();
+  }
+
 };
 </script>
 
