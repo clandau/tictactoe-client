@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     handleChoice(y, x, val) {
-      console.log(y, x);
       if (val === "") {
         this.$emit("choice", { y, x })
       }

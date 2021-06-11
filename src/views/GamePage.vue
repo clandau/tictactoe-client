@@ -1,26 +1,26 @@
 <template>
-  <v-container class="pa-10 ma-3">
+  <v-container fluid class="pa-10 ma-3">
     <v-row>
-      <v-col cols="1"></v-col>
-      <v-col cols="10" max-width="450">
-        <v-alert
-          v-if="state.status === 'complete' && state.winner === user.uid"
-          type="success"
-          >You have won!</v-alert
-        >
-        <v-alert
-          v-if="state.status === 'complete' && state.winner !== user.uid"
-          type="error"
-          >You have lost.</v-alert
-        >
-        <h1 v-if="state.status !== 'complete'">{{`${state.turn}'s turn` }}</h1>
-        <GameBoard
-          v-if="state"
-          :boardState="state.board"
-          v-on="{ choice: handleCellChoice }"
-        />
-      </v-col>
-      <v-col cols="1"></v-col>
+      <!-- <v-col cols="1"></v-col>
+      <v-col cols="10" max-width="450"> -->
+      <v-alert
+        v-if="state && state.status === 'complete' && state.winner === user.uid"
+        type="success"
+        >You have won!</v-alert
+      >
+      <v-alert
+        v-if="state && state.status === 'complete' && state.winner !== user.uid"
+        type="error"
+        >You have lost.</v-alert
+      >
+      <h1 v-if="state && state.status !== 'complete'">{{ `${state.turn}'s turn` }}</h1>
+      <GameBoard
+        v-if="state"
+        :boardState="state.board"
+        v-on="{ choice: handleCellChoice }"
+      />
+      <!-- </v-col>
+      <v-col cols="1"></v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -43,6 +43,7 @@ export default {
       state: null,
       socket: null,
       user: null,
+      player: null,
     };
   },
   async created() {
@@ -64,10 +65,14 @@ export default {
   methods: {
     handleState(state) {
       this.state = JSON.parse(state);
+      this.player =
+        this.user.uid === this.state.player1 ? "player1" : "player2";
     },
     handleCellChoice(coordinates) {
-      // send choice to server
-      this.socket.emit("playerMove", coordinates);
+      // if it's our turn, send choice to server
+      if (this.player === this.state.turn) {
+        this.socket.emit("playerMove", coordinates);
+      }
     },
   },
 };
