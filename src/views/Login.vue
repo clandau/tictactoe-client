@@ -97,8 +97,7 @@ export default {
         );
         const user = userCredential.user;
         // send new user to db
-        const res = await this.addUserToDatabase(user);
-        console.log(res);
+        await this.addUserToDatabase(user);
         this.$router.push("/dashboard");
       } catch (err) {
         console.error(err);
