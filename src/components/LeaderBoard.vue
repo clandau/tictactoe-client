@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto">
-    <v-card-title class="text-h5">Leader Board</v-card-title>
-    <div class="pa-8">
+    <v-card-title class="text-h5 pb-2">Leader Board</v-card-title>
+    <div class="py-2 px-8">
       <ol>
         <li v-for="w of winners" :key="w.email">
           <p>{{ w.email }}<b>{{`    Wins: ${w.count}`}}</b></p>

@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto">
-    <v-card-title class="text-h5">Game History</v-card-title>
-    <div class="pa-5">
+    <v-card-title class="text-h5 pb-2">Game History</v-card-title>
+    <div class="px-5 py-2">
       <ol>
         <li v-for="(game, i) of games" :key="i" class="text-left">
           <p>
