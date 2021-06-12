@@ -1,12 +1,18 @@
 <template>
   <v-app>
     <v-app-bar app color="deep-purple" dark>
-      <v-btn :to="'/dashboard'" outlined>Return to dashboard</v-btn>
+      <v-app-bar-title>Tic Tac Toe</v-app-bar-title>
       <v-spacer></v-spacer>
-      <div v-if="user" class="d-flex align-center mx-5">
+      <div v-if="user && !mobile" class="d-flex align-center mx-5">
         <v-toolbar-title>{{ user.email }}</v-toolbar-title>
       </div>
-      <v-btn v-if="user" @click="logoutUser" outlined>
+      <v-btn class="mx-2" v-if="user && !mobile" :to="'/dashboard'" outlined
+        >Return to dashboard</v-btn
+      >
+      <v-btn class="mx-2" v-if="user && mobile" :to="'/dashboard'" outlined
+        >Dashboard</v-btn
+      >
+      <v-btn class="mx-2" v-if="user" @click="logoutUser" outlined>
         <span class="mr-2">LOGOUT</span>
       </v-btn>
     </v-app-bar>
@@ -27,9 +33,14 @@ export default {
       user: null,
     };
   },
-  
+
   created() {
     this.user = auth.currentUser;
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs;
+    },
   },
   methods: {
     logoutUser() {
@@ -45,7 +56,7 @@ export default {
     },
     updateUser(user) {
       this.user = user;
-    }
+    },
   },
 };
 </script>
