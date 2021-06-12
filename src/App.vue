@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="deep-purple" dark>
+    <v-app-bar app color="indigo darken-3" dark>
       <v-app-bar-title>Tic Tac Toe</v-app-bar-title>
       <v-spacer></v-spacer>
       <div v-if="user && !mobile" class="d-flex align-center mx-5">
@@ -17,7 +17,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main class="blue-grey lighten-5">
+    <v-main class="bg-color">
       <router-view @updateUser="updateUser"></router-view>
     </v-main>
   </v-app>
@@ -60,3 +60,8 @@ export default {
   },
 };
 </script>
+<style>
+.bg-color {
+  background-color: #f7f6ee;
+}
+</style>

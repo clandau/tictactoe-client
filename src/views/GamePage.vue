@@ -33,7 +33,7 @@
     </v-row>
     <v-row v-if="waitingForGamePartner">
       <h2 class="text-h2 my-4">Awaiting a game partner...</h2>
-      <v-progress-linear indeterminate color="deep-purple"></v-progress-linear>
+      <v-progress-linear indeterminate color="indigo darken-3"></v-progress-linear>
     </v-row>
   </v-container>
 </template>

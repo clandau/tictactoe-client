@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <v-btn
-        class="deep-purple lighten-2 white--text"
+        class="indigo lighten-1 lighten-2 white--text"
         v-show="!showLoginForm"
         @click="handleLogin"
         >Login</v-btn
@@ -10,21 +10,29 @@
     </div>
     <div class="row">
       <v-btn
-        class="deep-purple lighten-2 white--text"
+        class="indigo lighten-1 white--text"
         v-show="!showLoginForm"
         @click="handleRegister"
         >Register</v-btn
       >
     </div>
     <div class="row">
-      <v-btn class="deep-purple lighten-2 white--text" @click="loginWithGoogle"
+      <v-btn
+        v-show="!showLoginForm"
+        class="indigo lighten-1 white--text"
+        @click="loginWithGoogle"
         >Sign In / Sign up with Google</v-btn
       >
     </div>
     <form v-show="showLoginForm">
       <div class="row">
         <div class="column">
-          <v-text-field v-model="email" label="E-mail" required></v-text-field>
+          <v-text-field
+            v-model="email"
+            label="E-mail"
+            color="indigo darken-3"
+            required
+          ></v-text-field>
         </div>
       </div>
       <div class="row">
@@ -34,13 +42,17 @@
             type="password"
             label="Password"
             hint="At least 8 characters"
+            color="indigo darken-3"
             counter
           ></v-text-field>
         </div>
       </div>
       <div class="row">
         <div class="column">
-          <v-btn type="submit" @click.stop.prevent="handleSubmit" class=""
+          <v-btn @click="clear" class="mr-2"
+            >cancel</v-btn
+          >
+          <v-btn type="submit" color="indigo lighten-1 white--text" @click.stop.prevent="handleSubmit" class=""
             >SUBMIT</v-btn
           >
         </div>
@@ -92,7 +104,6 @@ export default {
       } catch (err) {
         console.error(err);
         alert(`trouble logging in user: ${err.message}`);
-        this.showLoginForm = false;
         this.clear();
       }
     },
@@ -111,7 +122,6 @@ export default {
       } catch (err) {
         console.error(err);
         alert(`trouble registering new user: ${err.message}`);
-        this.showLoginForm = false;
         this.clear();
       }
     },
@@ -137,6 +147,7 @@ export default {
     },
 
     clear() {
+      this.showLoginForm = false;
       this.email = null;
       this.password = null;
     },
