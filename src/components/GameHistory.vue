@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .winner {
-  color: green;
+  color: #00c853;
   font-weight: bold;
 }
 </style>
