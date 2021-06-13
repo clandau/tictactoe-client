@@ -79,7 +79,7 @@ export default {
       newUser: false,
       email: null,
       password: null,
-      route: "api/newUser",
+      route: "/api/newUser",
     };
   },
   methods: {
