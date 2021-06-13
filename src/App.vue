@@ -1,17 +1,18 @@
 <template>
   <v-app>
     <v-app-bar app color="indigo darken-3" dark>
-      <v-app-bar-title>Tic Tac Toe</v-app-bar-title>
-      <v-spacer></v-spacer>
-      <div v-if="user && !mobile" class="d-flex align-center mx-5">
-        <v-toolbar-title>{{ user.email }}</v-toolbar-title>
-      </div>
       <v-btn class="mx-2" v-if="user && !mobile" :to="'/dashboard'" outlined
         >Return to dashboard</v-btn
       >
       <v-btn class="mx-2" v-if="user && mobile" :to="'/dashboard'" outlined
         >Dashboard</v-btn
       >
+      <v-spacer></v-spacer>
+      <v-toolbar-title>Tic Tac Toe</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <div v-if="user && !mobile" class="d-flex align-center mx-5">
+        <span>{{ user.email }}</span>
+      </div>
       <v-btn class="mx-2" v-if="user" @click="logoutUser" outlined>
         <span class="mr-2">LOGOUT</span>
       </v-btn>

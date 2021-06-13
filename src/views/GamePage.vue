@@ -149,7 +149,7 @@ export default {
     ) {
       this.socket.disconnect();
       next();
-    } else if (this.state?.status === "complete") {
+    } else if (this.state?.status === "complete" || this.waitingForGamePartner) {
       this.socket.disconnect();
       next();
     } else next();
