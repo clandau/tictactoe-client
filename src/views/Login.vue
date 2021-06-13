@@ -159,7 +159,7 @@ export default {
       const baseUrl =
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000"
-          : "https://peaceful-temple-46739.herokuapp.com/api/newUser";
+          : "https://peaceful-temple-46739.herokuapp.com";
       const url = baseUrl + this.route;
       const token = user && (await user.getIdToken());
 
