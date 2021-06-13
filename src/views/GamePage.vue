@@ -2,20 +2,21 @@
   <v-container fluid class="pa-10 ma-3 text-center">
     <v-row v-if="state">
       <v-col>
-        <p v-if="error">{{error}}</p>
+        <p v-if="error">{{ error }}</p>
         <v-alert
-          v-if="
-            state && state.status === 'complete' && state.winner === user.uid
-          "
+          v-if="playerWon"
           icon="mdi-trophy"
-          type="success" style="font-size: 24px"
+          type="success"
+          style="font-size: 24px"
           >You won!</v-alert
         >
         <v-alert
-          v-if="
-            state && state.status === 'complete' && state.winner !== user.uid
-          "
-          type="error" style="font-size: 24px"
+          v-if="draw"
+          color="pink darken-1 white--text"
+          style="font-size: 24px"
+          >Draw.</v-alert
+        >
+        <v-alert v-if="playerLost" type="error" style="font-size: 24px"
           >You lost.</v-alert
         ></v-col
       > </v-row
@@ -33,7 +34,10 @@
     </v-row>
     <v-row v-if="waitingForGamePartner">
       <h2 class="text-h2 my-4">Awaiting a game partner...</h2>
-      <v-progress-linear indeterminate color="indigo darken-3"></v-progress-linear>
+      <v-progress-linear
+        indeterminate
+        color="indigo darken-3"
+      ></v-progress-linear>
     </v-row>
   </v-container>
 </template>
@@ -76,7 +80,7 @@ export default {
       alert(`Server error.`);
       this.socket.disconnect();
       return this.$router.push("/dashboard");
-    })
+    });
     this.socket.emit("newGame", { twoPlayer: this.twoPlayer });
     this.socket.on("currentState", this.handleState);
     this.socket.on("waitingPartner", this.handleWaiting);
@@ -89,6 +93,22 @@ export default {
         ? "Your turn"
         : `${this.state.turn}'s turn`;
     },
+    playerWon() {
+      return (
+        this.state?.status === "complete" &&
+        this.state?.winner === this.user.uid
+      );
+    },
+    playerLost() {
+      return (
+        this.state?.status === "complete" &&
+        this.state?.winner !== "draw" &&
+        this.state?.winner !== this.user.uid
+      );
+    },
+    draw() {
+      return this.state?.status === "complete" && this.state?.winner === "draw";
+    },
   },
 
   methods: {
@@ -100,7 +120,10 @@ export default {
     },
     handleCellChoice(coordinates) {
       // if it's our turn, send choice to server
-      if (this.state.status === "incomplete" && this.player === this.state.turn) {
+      if (
+        this.state.status === "incomplete" &&
+        this.player === this.state.turn
+      ) {
         this.socket.emit("playerMove", coordinates);
       }
     },
@@ -112,7 +135,7 @@ export default {
       alert("Player left game.");
       this.error = "Player left game.";
       this.socket.disconnect();
-    }
+    },
   },
   beforeRouteLeave(to, from, next) {
     // disconnect from socket when navigate away from route

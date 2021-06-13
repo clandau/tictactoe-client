@@ -6,6 +6,7 @@
         <li v-for="(game, i) of games" :key="i" class="text-left">
           <p>
             {{ formatDate(game.created) }}
+            <span v-if="game.winner === 'draw'" class="winner">DRAW</span> 
           </p>
           <p>
             Player 1: <span :class="{ winner: game.player1 === game.winner }"
