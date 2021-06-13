@@ -64,9 +64,9 @@ export default {
   methods: {
     formatDate(date) {
       const dateObj = new Date(date);
-      const month = dateObj.getUTCMonth() + 1;
-      const day = dateObj.getUTCDate();
-      const year = dateObj.getUTCFullYear();
+      const month = dateObj.getMonth() + 1;
+      const day = dateObj.getDate();
+      const year = dateObj.getFullYear();
 
       return year + "/" + month + "/" + day;
     },
