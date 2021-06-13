@@ -72,7 +72,7 @@ export default {
     const url =
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
-        : "https://peaceful-temple-46739.herokuapp.com/api/newUser";
+        : "https://peaceful-temple-46739.herokuapp.com";
     this.socket = io(url, {
       auth: {
         token,
