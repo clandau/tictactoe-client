@@ -69,7 +69,11 @@ export default {
   async created() {
     this.user = auth.currentUser;
     const token = await this.user.getIdToken();
-    this.socket = io("https://peaceful-temple-46739.herokuapp.com", {
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://peaceful-temple-46739.herokuapp.com/api/newUser";
+    this.socket = io(url, {
       auth: {
         token,
         uid: this.user.uid,

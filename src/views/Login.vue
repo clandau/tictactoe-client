@@ -49,10 +49,12 @@
       </div>
       <div class="row">
         <div class="column">
-          <v-btn @click="clear" class="mr-2"
-            >cancel</v-btn
-          >
-          <v-btn type="submit" color="indigo lighten-1 white--text" @click.stop.prevent="handleSubmit" class=""
+          <v-btn @click="clear" class="mr-2">cancel</v-btn>
+          <v-btn
+            type="submit"
+            color="indigo lighten-1 white--text"
+            @click.stop.prevent="handleSubmit"
+            class=""
             >SUBMIT</v-btn
           >
         </div>
@@ -77,6 +79,7 @@ export default {
       newUser: false,
       email: null,
       password: null,
+      route: "api/newUser",
     };
   },
   methods: {
@@ -153,7 +156,11 @@ export default {
     },
 
     async addUserToDatabase(user) {
-      const url = "https://peaceful-temple-46739.herokuapp.com/api/newUser";
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://peaceful-temple-46739.herokuapp.com/api/newUser";
+      const url = baseUrl + this.route;
       const token = user && (await user.getIdToken());
 
       const res = await fetch(url, {

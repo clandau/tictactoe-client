@@ -6,13 +6,16 @@
         <li v-for="(game, i) of games" :key="i" class="text-left">
           <p>
             {{ formatDate(game.created) }}
-            <span v-if="game.winner === 'draw'" class="winner">DRAW</span> 
+            <span v-if="game.winner === 'draw'" class="winner">DRAW</span>
           </p>
           <p>
-            Player 1: <span :class="{ winner: game.player1 === game.winner }"
-              >{{ game.player1 }}</span
-            ><br>Player 2: <span :class="{ winner: game.player2 === game.winner }"
-              > {{ game.player2 }}</span
+            Player 1:
+            <span :class="{ winner: game.player1 === game.winner }">{{
+              game.player1
+            }}</span
+            ><br />Player 2:
+            <span :class="{ winner: game.player2 === game.winner }">
+              {{ game.player2 }}</span
             >
           </p>
         </li>
@@ -28,15 +31,22 @@ export default {
   data() {
     return {
       games: null,
-      url: "https://peaceful-temple-46739.herokuapp.com/api/games",
+      route: "api/games",
     };
   },
 
   async created() {
+    const baseUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/"
+        : "https://peaceful-temple-46739.herokuapp.com/";
+
+    const url = baseUrl + this.route;
+
     const user = auth.currentUser;
     const token = await user.getIdToken();
     try {
-      const res = await fetch(this.url, {
+      const res = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
