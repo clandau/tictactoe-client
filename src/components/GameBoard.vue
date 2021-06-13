@@ -1,7 +1,7 @@
 <template>
-  <v-container class="text-center" style="width: 500px">
+  <v-container class="text-center" style="max-width: 500px">
     <v-layout>
-      <v-flex xs12 class="mb-5" style="width: 400px">
+      <v-flex xs12 class="mb-5">
         <v-container grid-list-xs class="board">
           <v-layout v-for="(row, y) of boardState" :key="y">
             <div v-for="(val, x) of boardState[y]" :key="y + x" @mouseup="handleChoice(y, x, val)" class="cell" :class="'row-' + y">
@@ -35,7 +35,6 @@ export default {
 
 <style scoped>
 .cell {
-  /* outline: 4px solid #000; */
   display: flex;
   font-size: 6em;
   font-weight: bold;

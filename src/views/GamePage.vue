@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-10 ma-3 text-center">
+  <v-container fluid class="my-4 ml-0 text-center">
     <v-row v-if="state">
       <v-col>
         <p v-if="error">{{ error }}</p>
