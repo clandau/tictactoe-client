@@ -142,17 +142,20 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    // disconnect from socket when navigate away from route
-    if (
-      this.state?.status === "incomplete" &&
-      confirm("Do you wish to leave your game?")
-    ) {
-      this.socket.disconnect();
-      next();
+    // if we're in the middle of the game, confirm that they want to disconnect from the game
+    if (this.state?.status === "incomplete") {
+      if (confirm("Do you wish to leave your game?")) {
+        this.socket.disconnect();
+        next();
+      } else {
+        return;
+      }
     } else if (this.state?.status === "complete" || this.waitingForGamePartner) {
       this.socket.disconnect();
       next();
-    } else next();
+    } else {
+      next();
+    }
   },
 };
 </script>
