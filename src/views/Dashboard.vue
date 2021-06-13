@@ -5,12 +5,12 @@
         <div class="game-button-container mb-6 pa-5">
           <h1 class="text-h2">Start a new game</h1>
           <div class="button-container pa-6">
-            <v-btn @click="handleGameChoice(false)" outlined color="indigo darken-3">
+            <v-btn large @click="handleGameChoice(false)" outlined color="pink darken-1">
               Play against Computer</v-btn
             >
           </div>
           <div class="button-container pa-6">
-            <v-btn @click="handleGameChoice(true)" outlined color="indigo darken-3"
+            <v-btn large @click="handleGameChoice(true)" outlined color="pink darken-1"
               >Two player</v-btn
             >
           </div>
